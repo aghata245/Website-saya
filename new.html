@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kalkulator Persamaan Linier</title>
+    <style>
+        /* CSS untuk styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Persamaan Linier</h1>
+        <p>Masukkan matriks augmented (baris per baris) di bawah ini:</p>
+        <textarea id="inputMatrix"></textarea>
+        <button onclick="solveEquations()">Hitung Solusi</button>
+        <h2>Hasil:</h2>
+        <div id="solution"></div>
+    </div>
+
+    <script>
+        function printMatrix(matrix) {
+            let n = matrix.length;
+            let result = "";
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j <= n; j++) {
+                    result += matrix[i][j] + "\t";
+                }
+                result += "<br>";
+            }
+            return result;
+        }
+
+        function gaussianElimination(matrix) {
+            let n = matrix.length;
+
+            for (let i = 0; i < n; i++) {
+                let maxRow = i;
+                for (let j = i + 1; j < n; j++) {
+                    if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
+                        maxRow = j;
+                    }
+                }
+
+                for (let j = i; j <= n; j++) {
+                    [matrix[i][j], matrix[maxRow][j]] = [matrix[maxRow][j], matrix[i][j]];
+                }
+
+                for (let j = i + 1; j < n; j++) {
+                    let factor = matrix[j][i] / matrix[i][i];
+                    for (let k = i; k <= n; k++) {
+                        matrix[j][k] -= factor * matrix[i][k];
+                    }
+                }
+            }
+
+            let solution = new Array(n);
+            for (let i = n - 1; i >= 0; i--) {
+                solution[i] = matrix[i][n];
+                for (let j = i + 1; j < n; j++) {
+                    solution[i] -= matrix[i][j] * solution[j];
+                }
+                solution[i] /= matrix[i][i];
+            }
+
+            return solution;
+        }
+
+        function gaussJordanElimination(matrix) {
+            let n = matrix.length;
+
+            for (let i = 0; i < n; i++) {
+                let pivot = matrix[i][i];
+                for (let j = i; j <= n; j++) {
+                    matrix[i][j] /= pivot;
+                }
+
+                for (let j = 0; j < n; j++) {
+                    if (i !== j) {
+                        let factor = matrix[j][i];
+                        for (let k = i; k <= n; k++) {
+                            matrix[j][k] -= factor * matrix[i][k];
+                        }
+                    }
+                }
+            }
+
+            let solution = new Array(n);
+            for (let i = 0; i < n; i++) {
+                solution[i] = matrix[i][n];
+            }
+
+            return solution;
+        }
+
+        function solveEquations() {
+            let inputText = document.getElementById("inputMatrix").value;
+            let rows = inputText.trim().split('\n');
+            let matrix = [];
+
+            for (let row of rows) {
+                let rowValues = row.trim().split(/\s+/).map(Number);
+                matrix.push(rowValues);
+            }
+
+            let gaussResult = gaussianElimination(matrix.map(row => [...row]));
+            let gaussJordanResult = gaussJordanElimination(matrix.map(row => [...row]));
+
+            let solutionHTML = `
+                <p>Solusi menggunakan metode eliminasi Gauss:</p>
+                <pre>${gaussResult.join("\n")}</pre>
+                <p>Solusi menggunakan metode eliminasi Gauss-Jordan:</p>
+                <pre>${gaussJordanResult.join("\n")}</pre>
+            `;
+
+            document.getElementById("solution").innerHTML = solutionHTML;
+        }
+    </script>
+</body>
+</html>

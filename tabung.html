@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Luas Tabung</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: arial;
+		}
+
+		body {
+			background: #f7d47a;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		h3{
+			text-align: center;
+			font-family: cursive;
+			margin-top: 20px;
+		}
+
+		label {
+			display: block;
+			margin-top: 7px;
+			width: 100%;
+		}
+
+		input {
+			display: block;
+			margin-top: 7px;
+			width: 100%;
+			padding: 5px;
+		}
+
+		input:focus {
+			outline: none;
+		}
+
+		.container {
+			background: #abffbd;
+			max-width: 500px;
+			margin: 50px auto;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			padding: 20px;
+			border-radius: 20px;
+			box-shadow: 0px 25px 35px rgba(0, 0, 0, 0.5);
+		}
+
+		.input {
+			width: 100%;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		#output, #outputLuas {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		button {
+			width: 75px;
+			padding: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<h3>Kelompok 6 : Metode Numerik<br>
+	M. Davin, M. Hilal, Mutyarsih AE</h3>
+	<input type="number" placeholder="jari-jari"><br>
+	<input type="number" placeholder="tinggi tabung"><br>
+		<button id="hitung">Hitung</button>
+		<div id="output"></div>	
+		<script>
+			const r = document.getElementById('r');
+			const t = document.getElementById('t');
+			const hitung = document.getElementById('hitung');
+			const output = document.getElementById('output');
+			hitung.addEventListener('click', function(){
+				let jari_jari = parseFloat(r.value);
+				let tinggi = parseFloat(t.value);
+				let phi = 3.14;
+				let luas = (phi*(jari_jari*jari_jari))*tinggi;
+				let textoutput = `Luas segitiga dengan jari-jari ${jari_jari}cm dan tinggi ${tinggi}cm dengan rumus phi*jari_jari*jari_jari*tinggi adalah ${luas}cm2`;
+				output.innerHTML = textoutput;
+			});
+		</script>
+		</div>
+</body>
+</html>

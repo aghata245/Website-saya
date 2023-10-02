@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Penyelesaian Sistem Persamaan Linear</title>
+</head>
+<body>
+    <h1>Penyelesaian Sistem Persamaan Linear</h1>
+    <form id="linearSystemForm">
+        <label for="n">Jumlah variabel (n): </label>
+        <input type="number" id="n" min="1" required><br><br>
+
+        <h2>Masukkan matriks koefisien (A) dan vektor hasil (B):</h2>
+        <table id="matrixTable">
+            <!-- Kolom tabel akan dibangun secara dinamis berdasarkan n -->
+        </table>
+
+        <button type="button" onclick="solveGauss()">Penyelesaian dengan Eliminasi Gauss</button>
+        <button type="button" onclick="solveGaussJordan()">Penyelesaian dengan Gauss-Jordan</button>
+
+        <h2>Hasil:</h2>
+        <div id="result"></div>
+    </form>
+
+    <script>
+        function createMatrixInputTable(n) {
+            const table = document.getElementById('matrixTable');
+            table.innerHTML = '';
+
+            for (let i = 1; i <= n; i++) {
+                const row = document.createElement('tr');
+                for (let j = 1; j <= n; j++) {
+                    const cell = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.id = `A${i}${j}`;
+                    input.required = true;
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                const bCell = document.createElement('td');
+                const bInput = document.createElement('input');
+                bInput.type = 'number';
+                bInput.id = `B${i}`;
+                bInput.required = true;
+                bCell.appendChild(bInput);
+                row.appendChild(bCell);
+                table.appendChild(row);
+            }
+        }
+
+        function solveGauss() {
+            const n = parseInt(document.getElementById('n').value);
+            const A = [];
+            const B = [];
+
+            for (let i = 1; i <= n; i++) {
+                const row = [];
+                for (let j = 1; j <= n; j++) {
+                    const cell = parseFloat(document.getElementById(`A${i}${j}`).value);
+                    row.push(cell);
+                }
+                A.push(row);
+                B.push(parseFloat(document.getElementById(`B${i}`).value));
+            }
+
+            // TODO: Implement Eliminasi Gauss
+
+            // Display the result
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Hasil dengan Eliminasi Gauss: ..."; // Ganti dengan hasil yang sesuai
+        }
+
+        function solveGaussJordan() {
+            const n = parseInt(document.getElementById('n').value);
+            const A = [];
+            const B = [];
+
+            for (let i = 1; i <= n; i++) {
+                const row = [];
+                for (let j = 1; j <= n; j++) {
+                    const cell = parseFloat(document.getElementById(`A${i}${j}`).value);
+                    row.push(cell);
+                }
+                A.push(row);
+                B.push(parseFloat(document.getElementById(`B${i}`).value));
+            }
+
+            // TODO: Implement Gauss-Jordan Elimination
+
+            // Display the result
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Hasil dengan Gauss-Jordan: ..."; // Ganti dengan hasil yang sesuai
+        }
+
+        document.getElementById('n').addEventListener('input', function () {
+            const n = parseInt(this.value);
+            createMatrixInputTable(n);
+        });
+    </script>
+</body>
+</html>
